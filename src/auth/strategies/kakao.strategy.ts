@@ -12,7 +12,8 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
   }
 
   validate(accessToken: string, refreshToken: string, profile: any) {
-    console.log('validate');
+    const str = '------kakao validate';
+    console.log(str);
     return {
       email: profile.emails[0].value,
       password: '1111',
