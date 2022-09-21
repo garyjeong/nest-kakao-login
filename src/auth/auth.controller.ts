@@ -3,8 +3,6 @@ import {
   Controller,
   Get,
   HttpCode,
-  HttpStatus,
-  Param,
   Post,
   Query,
   Req,
@@ -13,6 +11,7 @@ import {
 import { BaseAuthGuard } from '../guards/base.auth.guard';
 import { NaverAuthGuard } from '../guards/naver.auth.guard';
 import { KakaoAuthGuard } from '../guards/kakao.auth.guard';
+import { GoogleAuthGuard } from 'src/guards/google.auth.guard';
 import { Users } from '@prisma/client';
 import { AuthService } from './auth.service';
 import {
@@ -20,7 +19,6 @@ import {
   BaseSignUpRequestDto,
   BaseSignResponseDto,
 } from './dto/auth.dto';
-import { GoogleAuthGuard } from 'src/guards/google.auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -42,25 +40,6 @@ export class AuthController {
     return this.authService.createUser(body);
   }
 
-  // 참고 URL : https://velog.io/@eslerkang/TIL-NestJSpassport-kakao
-  @HttpCode(200)
-  @Get('login/naver')
-  @UseGuards(NaverAuthGuard)
-  async naverLogin(email: string): Promise<any> {
-    const str = '------Naver Login';
-    console.log(str);
-    return str;
-  }
-
-  @HttpCode(200)
-  @Get('/naver/callback')
-  async naverLoginCallback(@Query() query: any): Promise<any> {
-    const str = '------Naver Login Callback';
-    console.log(str);
-    console.log(query?.code);
-    return str;
-  }
-
   @HttpCode(200)
   @Get('login/kakao')
   @UseGuards(KakaoAuthGuard)
@@ -70,12 +49,13 @@ export class AuthController {
     return str;
   }
 
+  // 참고 URL : https://velog.io/@eslerkang/TIL-NestJSpassport-kakao
   @HttpCode(200)
-  @Get('/kakao/callback')
-  async kakaoLoginCallback(@Query() query: any): Promise<any> {
-    const str = '------Kakao Login Callback';
+  @Get('login/naver')
+  @UseGuards(NaverAuthGuard)
+  async naverLogin(email: string): Promise<any> {
+    const str = '------Naver Login';
     console.log(str);
-    console.log(query?.code);
     return str;
   }
 
@@ -89,11 +69,32 @@ export class AuthController {
   }
 
   @HttpCode(200)
+  @Get('/kakao/callback')
+  @UseGuards(KakaoAuthGuard)
+  async kakaoLoginCallback(@Req() req: any): Promise<any> {
+    const str = '------Kakao Login Callback';
+    console.log(str);
+    console.log(req.user);
+    return str;
+  }
+
+  @HttpCode(200)
+  @Get('/naver/callback')
+  @UseGuards(NaverAuthGuard)
+  async naverLoginCallback(@Req() req: any): Promise<any> {
+    const str = '------Naver Login Callback';
+    console.log(str);
+    console.log(req.user);
+    return str;
+  }
+
+  @HttpCode(200)
   @Get('/google/callback')
-  async googleLoginCallback(@Query() query: any): Promise<any> {
+  @UseGuards(GoogleAuthGuard)
+  async googleLoginCallback(@Req() req: any): Promise<any> {
     const str = '------Google Login';
     console.log(str);
-    console.log(query?.code);
+    console.log(req.user);
     return str;
   }
 }

@@ -9,17 +9,20 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       clientID: process.env.GOOGLE_CLIENT_KEY,
       clientSecret: process.env.GOOGLE_SECRET_KEY,
       callbackURL: process.env.GOOGLE_CALLBACK_URL,
-      scope: ['email', 'profile'],
     });
   }
 
   validate(accessToken: string, refreshToken: string, profile: any, done: VerifyCallback) {
     console.log('------Google validate Validate');
+    const profileJson = profile._json;
     return {
-      email: profile.emails[0].value,
-      password: '1111',
-      nickname: profile.displayName,
-      userImgURL: profile._json.profile_image,
+      service: profile.provider,
+      id: profile.id,
+      username: profile.username ?? '',
+      email: profileJson.email,
+      birthday: profileJson.birthday ?? '',
+      accessToken: accessToken,
+      refreshToken: refreshToken
     };
   }
 }
