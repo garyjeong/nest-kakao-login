@@ -8,6 +8,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants/jwt.constants';
 import { PrismaModule } from '../prisma/prisma.module';
+import { GoogleStrategy } from './strategies/google.strategy';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { PrismaModule } from '../prisma/prisma.module';
       signOptions: { expiresIn: '60s' },
     }),
   ],
-  providers: [AuthService, BaseStrategy, NaverStrategy, KakaoStrategy],
+  providers: [AuthService, BaseStrategy, NaverStrategy, KakaoStrategy, GoogleStrategy],
   controllers: [AuthController],
 })
 export class AuthModule {}
