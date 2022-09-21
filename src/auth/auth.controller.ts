@@ -4,7 +4,9 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -18,6 +20,7 @@ import {
   BaseSignUpRequestDto,
   BaseSignResponseDto,
 } from './dto/auth.dto';
+import { GoogleAuthGuard } from 'src/guards/google.auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -44,16 +47,17 @@ export class AuthController {
   @Get('login/naver')
   @UseGuards(NaverAuthGuard)
   async naverLogin(email: string): Promise<any> {
-    const str = '------naver login';
+    const str = '------Naver Login';
     console.log(str);
     return str;
   }
 
   @HttpCode(200)
   @Get('/naver/callback')
-  async naverLoginCallback(@Req() req: any): Promise<any> {
-    const str = '------naver callback';
+  async naverLoginCallback(@Query() query: any): Promise<any> {
+    const str = '------Naver Login Callback';
     console.log(str);
+    console.log(query?.code);
     return str;
   }
 
@@ -61,16 +65,35 @@ export class AuthController {
   @Get('login/kakao')
   @UseGuards(KakaoAuthGuard)
   async kakaoLogin(email: string): Promise<any> {
-    const str = '------kakao login';
+    const str = '------Kakao Login';
     console.log(str);
     return str;
   }
 
   @HttpCode(200)
   @Get('/kakao/callback')
-  async kakaoLoginCallback(@Req() req: any): Promise<any> {
-    const str = '------kakao callback';
+  async kakaoLoginCallback(@Query() query: any): Promise<any> {
+    const str = '------Kakao Login Callback';
     console.log(str);
+    console.log(query?.code);
+    return str;
+  }
+
+  @HttpCode(200)
+  @Get('login/google')
+  @UseGuards(GoogleAuthGuard)
+  async googleLogin(email: string): Promise<any> {
+    const str = '------Google Login';
+    console.log(str);
+    return str;
+  }
+
+  @HttpCode(200)
+  @Get('/google/callback')
+  async googleLoginCallback(@Query() query: any): Promise<any> {
+    const str = '------Google Login';
+    console.log(str);
+    console.log(query?.code);
     return str;
   }
 }
