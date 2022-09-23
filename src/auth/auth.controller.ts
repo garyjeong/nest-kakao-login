@@ -44,7 +44,7 @@ export class AuthController {
   @Get('login/kakao')
   @UseGuards(KakaoAuthGuard)
   async kakaoLogin(email: string): Promise<any> {
-    const str = '------Kakao Login';
+    const str = '------Kakao Login Controller';
     console.log(str);
     return str;
   }
@@ -54,7 +54,7 @@ export class AuthController {
   @Get('login/naver')
   @UseGuards(NaverAuthGuard)
   async naverLogin(email: string): Promise<any> {
-    const str = '------Naver Login';
+    const str = '------Naver Login Controller';
     console.log(str);
     return str;
   }
@@ -63,7 +63,7 @@ export class AuthController {
   @Get('login/google')
   @UseGuards(GoogleAuthGuard)
   async googleLogin(email: string): Promise<any> {
-    const str = '------Google Login';
+    const str = '------Google Login Controllers';
     console.log(str);
     return str;
   }
@@ -92,7 +92,7 @@ export class AuthController {
   @Get('/google/callback')
   @UseGuards(GoogleAuthGuard)
   async googleLoginCallback(@Req() req: any): Promise<any> {
-    const str = '------Google Login';
+    const str = '------Google Login Callback';
     console.log(str);
     console.log(req.user);
     return str;
